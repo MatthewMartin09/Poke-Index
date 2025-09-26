@@ -1,0 +1,197 @@
+/* Pagination Styles */
+.pagination-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0;
+  gap: 1rem;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pagination-btn {
+  padding: 0.75rem 1rem;
+  border: 2px solid #e2e8f0;
+  background: white;
+  color: #475569;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-btn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+.pagination-btn.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.pagination-btn.active:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.pagination-prev,
+.pagination-next {
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+}
+
+.pagination-prev:hover,
+.pagination-next:hover {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.pagination-dots {
+  padding: 0 0.5rem;
+  color: #64748b;
+  font-weight: bold;
+}
+
+.pagination-info {
+  color: #64748b;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.mobile-swipe-hint {
+  color: #94a3b8;
+  font-size: 0.75rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+  animation: fadeInOut 3s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .pagination-container {
+    margin: 1.5rem 0;
+    padding: 0 1rem;
+  }
+  
+  .pagination {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .pagination-btn {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    min-width: 44px;
+    height: 44px;
+  }
+  
+  .pagination-prev,
+  .pagination-next {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    height: 44px;
+  }
+  
+  .pagination-info {
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagination-container {
+    margin: 1rem 0;
+    padding: 0 0.5rem;
+  }
+  
+  .pagination {
+    gap: 0.25rem;
+    justify-content: center;
+  }
+  
+  .pagination-btn {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+    min-width: 36px;
+    height: 36px;
+    border-radius: 6px;
+  }
+  
+  .pagination-prev,
+  .pagination-next {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    height: 36px;
+    white-space: nowrap;
+  }
+  
+  /* Hide some page numbers on very small screens */
+  .pagination-btn:not(.pagination-prev):not(.pagination-next):not(.active) {
+    display: none;
+  }
+  
+  .pagination-btn.show-mobile {
+    display: flex !important;
+  }
+  
+  .pagination-dots {
+    display: none;
+  }
+  
+  .pagination-info {
+    font-size: 0.75rem;
+    text-align: center;
+  }
+}
+
+/* Very small screens - minimal pagination */
+@media (max-width: 360px) {
+  .pagination-prev,
+  .pagination-next {
+    padding: 0.5rem;
+    font-size: 0.7rem;
+  }
+  
+  .pagination-btn {
+    min-width: 32px;
+    height: 32px;
+    font-size: 0.7rem;
+  }
+}
+
+/* Animation for page transitions */
+.pokemon-grid {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

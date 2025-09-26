@@ -1,0 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=MuseoModerno:wght@400;700&display=swap');
+
+/* MuseoModerno font-face fallback */
+body, .museomoderno {
+  font-family: 'MuseoModerno', sans-serif;
+}

@@ -1,0 +1,31 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LandingPage from "./components/LandingPage";
+import Login from "./Login";
+import Signup from "./Signup";
+import Home from "./components/Home";
+import Pokedex from "./components/Pokedex";
+import Shop from "./components/Shop";
+import Favorites from "./components/Favorites";
+import Cart from "./components/Cart";
+import News from "./components/News";
+import "./App.css";
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/pokedex" element={<Pokedex />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/favorites" element={<Favorites />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/news" element={<News />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
