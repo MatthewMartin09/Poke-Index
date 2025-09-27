@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useUser } from "../contexts/UserContext";
 import pokeindexLogo from "../assets/pokeindex_logo.png";
 import cartIcon from "../assets/cart.png";
 import favoriteIcon from "../assets/favorite.png";
+import UserDropdown from "./UserDropdown";
 import './PokedexLoading.css';
 import './PokedexPagination.css';
 import './PokedexCards.css';
 
 const Pokedex = () => {
   const navigate = useNavigate();
+  const { isLoggedIn } = useUser();
   const [pokemon, setPokemon] = useState([]);
   const [filteredPokemon, setFilteredPokemon] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -373,12 +376,20 @@ const Pokedex = () => {
                     <Link to="/shop" className="home-nav-item">Shop</Link>
 
                     <div className="home-nav-divider"></div>
-                    <Link to="/login" className="home-nav-item home-mobile-login">
-                      <span>Login</span>
-                    </Link>
-                    <Link to="/signup" className="home-nav-item home-mobile-signup">
-                      <span>Sign Up</span>
-                    </Link>
+                    {!isLoggedIn ? (
+                      <>
+                        <Link to="/login" className="home-nav-item home-mobile-login">
+                          <span>Login</span>
+                        </Link>
+                        <Link to="/signup" className="home-nav-item home-mobile-signup">
+                          <span>Sign Up</span>
+                        </Link>
+                      </>
+                    ) : (
+                      <div className="home-nav-item">
+                        <UserDropdown />
+                      </div>
+                    )}
                   </nav>
                 </div>
               )}
@@ -404,12 +415,18 @@ const Pokedex = () => {
               <Link to="/cart" className="home-icon-btn" aria-label="Cart">
                 <img src={cartIcon} alt="Cart" className="home-icon" />
               </Link>
-              <Link to="/login" className="home-desktop-btn home-login-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span>Login</span>
-              </Link>
-              <Link to="/signup" className="home-desktop-btn home-signup-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span>Sign Up</span>
-              </Link>
+              {!isLoggedIn ? (
+                <>
+                  <Link to="/login" className="home-desktop-btn home-login-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span>Login</span>
+                  </Link>
+                  <Link to="/signup" className="home-desktop-btn home-signup-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span>Sign Up</span>
+                  </Link>
+                </>
+              ) : (
+                <UserDropdown />
+              )}
             </div>
 
             {/* Empty space for mobile layout balance */}

@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import { useUser } from "../contexts/UserContext";
 import pokeindexLogo from "../assets/pokeindex_logo.png";
 import cartIcon from "../assets/cart.png";
 import favoriteIcon from "../assets/favorite.png";
@@ -11,10 +12,14 @@ import news1 from "../assets/news1.jpg";
 import news2 from "../assets/news2.png";
 import news3 from "../assets/news3.jpg";
 import news4 from "../assets/news4.jpg";
+import news5 from "../assets/news5.jpg";
+import news6 from "../assets/news6.png";
 import ShinyText from "./ShinyText";
 import TiltedCard from "./TiltedCard";
+import UserDropdown from "./UserDropdown";
 
 const Home = () => {
+  const { isLoggedIn } = useUser();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const touchStartX = useRef(null);
@@ -143,12 +148,20 @@ const Home = () => {
                     <Link to="/shop" className="home-nav-item">Shop</Link>
 
                     <div className="home-nav-divider"></div>
-                    <Link to="/login" className="home-nav-item home-mobile-login">
-                      <span>Login</span>
-                    </Link>
-                    <Link to="/signup" className="home-nav-item home-mobile-signup">
-                      <span>Sign Up</span>
-                    </Link>
+                    {!isLoggedIn ? (
+                      <>
+                        <Link to="/login" className="home-nav-item home-mobile-login">
+                          <span>Login</span>
+                        </Link>
+                        <Link to="/signup" className="home-nav-item home-mobile-signup">
+                          <span>Sign Up</span>
+                        </Link>
+                      </>
+                    ) : (
+                      <div className="home-nav-item">
+                        <UserDropdown />
+                      </div>
+                    )}
                   </nav>
                 </div>
               )}
@@ -174,12 +187,18 @@ const Home = () => {
               <Link to="/cart" className="home-icon-btn" aria-label="Cart">
                 <img src={cartIcon} alt="Cart" className="home-icon" />
               </Link>
-              <Link to="/login" className="home-desktop-btn home-login-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span>Login</span>
-              </Link>
-              <Link to="/signup" className="home-desktop-btn home-signup-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span>Sign Up</span>
-              </Link>
+              {!isLoggedIn ? (
+                <>
+                  <Link to="/login" className="home-desktop-btn home-login-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span>Login</span>
+                  </Link>
+                  <Link to="/signup" className="home-desktop-btn home-signup-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span>Sign Up</span>
+                  </Link>
+                </>
+              ) : (
+                <UserDropdown />
+              )}
             </div>
 
             {/* Empty space for mobile layout balance */}
@@ -200,6 +219,9 @@ const Home = () => {
                 speed={15} 
               />
             </h2>
+            {/* Spacer to push carousel down */}
+            <div style={{ height: '10px' }}></div>
+            
             <div className="pack-carousel">
               {/* Card Stack */}
               <div 
@@ -331,27 +353,165 @@ const Home = () => {
                   <Link to="/news" className="read-more-btn">Read More</Link>
                 </div>
               </div>
+
+              {/* News Card 5 */}
+              <div className="news-card">
+                <div className="news-card-image">
+                  <img src={news6} alt="New Scarlet Violet Cards" className="news-image" />
+                </div>
+                <div className="news-card-content">
+                  <div className="news-meta">
+                    <span className="news-category">Releases</span>
+                    <span className="news-date">Sept 24, 2025</span>
+                  </div>
+                  <h3 className="news-title">Pokémon Horizons: Season 2—The Search for Laqua Part 4 Now Available</h3>
+                  <p className="news-description">
+                    Witness the deepened bonds between Liko and Floragato and between Roy and Crocalor as the gang encounters the last of the Six Heroes.
+                  </p>
+                  <Link to="/news" className="read-more-btn">Read More</Link>
+                </div>
+              </div>
+
+              {/* News Card 6 */}
+              <div className="news-card">
+                <div className="news-card-image">
+                  <img src={news5} alt="New Scarlet Violet Cards" className="news-image" />
+                </div>
+                <div className="news-card-content">
+                  <div className="news-meta">
+                    <span className="news-category">Releases</span>
+                    <span className="news-date">Oct 28, 2025</span>
+                  </div>
+                  <h3 className="news-title">News from the August 2022 Pokémon Presents</h3>
+                  <p className="news-description">
+                    Pokémon Scarlet and Pokémon Violet games arriving on the Nintendo Switch November 18, 2022. This presentation also included updates for Pokémon GO, Pokémon UNITE, and Pokémon Café ReMix.
+                  </p>
+                  <Link to="/news" className="read-more-btn">Read More</Link>
+                </div>
+              </div>
             </div>
           </div>
           {/* Get Started Section */}
-          <div id="get-started" className="get-started-container">
-            <h2 className="get-started-title">Get Started</h2>
-            <div className="get-started-content">
-              <p className="get-started-description">
-                Welcome to PokeIndex! Start your Pokemon card collection journey with us.
-              </p>
-              <div className="get-started-actions">
-                <Link to="/shop" className="get-started-btn primary">
-                  Browse Cards
-                </Link>
-                <Link to="/pokedex" className="get-started-btn secondary">
-                  Learn More
-                </Link>
+          <div id="get-started" className="get-started-section">
+            <div className="get-started-container">
+              <h2 className="get-started-main-title">Get Started!</h2>
+              <p className="get-started-subtitle">Your First Steps in the Pokémon Trading Card Game</p>
+              
+              <div className="get-started-cards">
+                {/* Card 1 - Learn the Basics */}
+                <div className="get-started-card">
+                  <div className="get-started-icon">
+                    <div className="pokeball-icon">
+                      <div className="pokeball-top"></div>
+                      <div className="pokeball-middle"></div>
+                      <div className="pokeball-bottom"></div>
+                      <div className="pokeball-center"></div>
+                    </div>
+                  </div>
+                  <h3 className="get-started-card-title">1. Learn the Basics</h3>
+                  <p className="get-started-card-description">
+                    Discover how the Pokémon TCG works — Pokémon, Energy, and Trainer cards form your winning strategy.
+                  </p>
+                </div>
+
+                {/* Card 2 - Choose Your Deck */}
+                <div className="get-started-card">
+                  <div className="get-started-icon">
+                    <div className="cards-icon">
+                      <div className="card card-back"></div>
+                      <div className="card card-front"></div>
+                    </div>
+                  </div>
+                  <h3 className="get-started-card-title">2. Choose Your Deck</h3>
+                  <p className="get-started-card-description">
+                    Start with a ready-to-play Battle Deck or an Elite Trainer Box packed with booster packs and accessories.
+                  </p>
+                </div>
+
+                {/* Card 3 - Start Battling */}
+                <div className="get-started-card">
+                  <div className="get-started-icon">
+                    <div className="lightning-icon">
+                      <div className="lightning-bolt"></div>
+                    </div>
+                  </div>
+                  <h3 className="get-started-card-title">3. Start Battling</h3>
+                  <p className="get-started-card-description">
+                    Challenge friends, join events, or play online with Pokémon TCG Live.
+                  </p>
+                </div>
               </div>
+
+              <button className="get-started-cta-btn">
+                Let's go
+              </button>
             </div>
           </div>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="home-footer">
+        <div className="footer-container">
+          <div className="footer-content">
+            {/* Logo Section */}
+            <div className="footer-logo-section">
+              <img src={pokeindexLogo} alt="PokeIndex" className="footer-logo" />
+            </div>
+
+            {/* Footer Links */}
+            <div className="footer-links">
+              {/* Shop Column */}
+              <div className="footer-column">
+                <h4 className="footer-column-title">Shop</h4>
+                <ul className="footer-links-list">
+                  <li><Link to="/shop" className="footer-link">Starter Decks</Link></li>
+                  <li><Link to="/shop" className="footer-link">Elite Trainer Boxes</Link></li>
+                  <li><Link to="/shop" className="footer-link">Booster Packs</Link></li>
+                  <li><Link to="/shop" className="footer-link">Accessories</Link></li>
+                </ul>
+              </div>
+
+              {/* About Column */}
+              <div className="footer-column">
+                <h4 className="footer-column-title">About</h4>
+                <ul className="footer-links-list">
+                  <li><Link to="/about" className="footer-link">Our Story</Link></li>
+                  <li><Link to="/faq" className="footer-link">FAQs</Link></li>
+                  <li><Link to="/contact" className="footer-link">Contact Us</Link></li>
+                </ul>
+              </div>
+
+              {/* Support Column */}
+              <div className="footer-column">
+                <h4 className="footer-column-title">Support</h4>
+                <ul className="footer-links-list">
+                  <li><Link to="/shipping" className="footer-link">Shipping & Returns</Link></li>
+                  <li><Link to="/orders" className="footer-link">Order Tracking</Link></li>
+                  <li><Link to="/privacy" className="footer-link">Privacy Policy</Link></li>
+                  <li><Link to="/terms" className="footer-link">Terms of Service</Link></li>
+                </ul>
+              </div>
+
+              {/* Newsletter Column */}
+              <div className="footer-column newsletter-column">
+                <h4 className="footer-column-title">Newsletter</h4>
+                <p className="newsletter-description">
+                  Be the first to know about new card drops, expansions, and special promotions.
+                </p>
+                <div className="newsletter-form">
+                  <input 
+                    type="email" 
+                    placeholder="Enter your email here" 
+                    className="newsletter-input"
+                  />
+                  <button className="newsletter-btn">Subscribe</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useUser } from "../contexts/UserContext";
 import pokeindexLogo from "../assets/pokeindex_logo.png";
 import cartIcon from "../assets/cart.png";
 import favoriteIcon from "../assets/favorite.png";
+import UserDropdown from "./UserDropdown";
 import news1 from "../assets/news1.jpg";
 import news2 from "../assets/news2.png";
 import news3 from "../assets/news3.jpg";
@@ -10,6 +12,7 @@ import news4 from "../assets/news4.jpg";
 
 const News = () => {
   const navigate = useNavigate();
+  const { isLoggedIn } = useUser();
   const [newsArticles, setNewsArticles] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
@@ -169,12 +172,20 @@ const News = () => {
                     <Link to="/news" className="home-nav-item">News</Link>
 
                     <div className="home-nav-divider"></div>
-                    <Link to="/login" className="home-nav-item home-mobile-login">
-                      <span>Login</span>
-                    </Link>
-                    <Link to="/signup" className="home-nav-item home-mobile-signup">
-                      <span>Sign Up</span>
-                    </Link>
+                    {!isLoggedIn ? (
+                      <>
+                        <Link to="/login" className="home-nav-item home-mobile-login">
+                          <span>Login</span>
+                        </Link>
+                        <Link to="/signup" className="home-nav-item home-mobile-signup">
+                          <span>Sign Up</span>
+                        </Link>
+                      </>
+                    ) : (
+                      <div className="home-nav-item">
+                        <UserDropdown />
+                      </div>
+                    )}
                   </nav>
                 </div>
               )}
@@ -201,12 +212,18 @@ const News = () => {
               <Link to="/cart" className="home-icon-btn" aria-label="Cart">
                 <img src={cartIcon} alt="Cart" className="home-icon" />
               </Link>
-              <Link to="/login" className="home-desktop-btn home-login-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span>Login</span>
-              </Link>
-              <Link to="/signup" className="home-desktop-btn home-signup-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span>Sign Up</span>
-              </Link>
+              {!isLoggedIn ? (
+                <>
+                  <Link to="/login" className="home-desktop-btn home-login-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span>Login</span>
+                  </Link>
+                  <Link to="/signup" className="home-desktop-btn home-signup-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span>Sign Up</span>
+                  </Link>
+                </>
+              ) : (
+                <UserDropdown />
+              )}
             </div>
 
             {/* Empty space for mobile layout balance */}
