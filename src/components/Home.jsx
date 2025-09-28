@@ -146,6 +146,7 @@ const Home = () => {
                     <Link to="/cart" className="home-nav-item">Cart</Link>
                     <Link to="/pokedex" className="home-nav-item">Pokedex</Link>
                     <Link to="/shop" className="home-nav-item">Shop</Link>
+                    <Link to="/collections" className="home-nav-item">My Collections</Link>
 
                     <div className="home-nav-divider"></div>
                     {!isLoggedIn ? (
@@ -177,6 +178,7 @@ const Home = () => {
               <Link to="/home" className="home-desktop-nav-item">Home</Link>
               <Link to="/pokedex" className="home-desktop-nav-item">Pokedex</Link>
               <Link to="/shop" className="home-desktop-nav-item">Shop</Link>
+              <Link to="/collections" className="home-desktop-nav-item">My Collections</Link>
             </nav>
 
             {/* Desktop Action Buttons - Hidden on mobile */}

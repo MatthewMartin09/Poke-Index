@@ -1,0 +1,432 @@
+/* MyCollections.css - Responsive design for web and mobile */
+
+.my-collections-container {
+  margin: 16px auto;
+  max-width: 1200px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 16px;
+}
+
+/* Tablet and desktop styles */
+@media (min-width: 768px) {
+  .my-collections-container {
+    margin: 32px auto;
+    padding: 32px;
+    max-width: 900px;
+  }
+}
+
+.my-collections-title {
+  font-size: 2.2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 24px;
+  color: #2d3748;
+}
+
+.my-collections-main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+/* Mobile-first: Stack vertically */
+.my-collections-binders {
+  width: 100%;
+  order: 2; /* Show binders below cards on mobile */
+}
+
+/* Tablet and desktop: Side by side layout */
+@media (min-width: 768px) {
+  .my-collections-main {
+    flex-direction: row;
+    gap: 32px;
+  }
+  
+  .my-collections-binders {
+    width: 220px;
+    order: 1; /* Show binders on left for desktop */
+  }
+}
+
+.my-collections-subtitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #3b4252;
+}
+
+.my-collections-binder-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.my-collections-binder-btn {
+  width: 100%;
+  padding: 8px 14px;
+  border-radius: 6px;
+  background: #f7fafc;
+  color: #333;
+  text-align: left;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 6px;
+  transition: background 0.2s, color 0.2s;
+}
+.my-collections-binder-btn.selected {
+  background: #3182ce;
+  color: #fff;
+}
+.binder-count {
+  font-size: 0.85em;
+  color: #888;
+}
+
+.my-collections-add-binder {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+.add-binder-input {
+  flex: 1;
+  padding: 6px 10px;
+  border-radius: 5px;
+  border: 1px solid #cbd5e0;
+  font-size: 1rem;
+}
+.add-binder-btn {
+  background: #38a169;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.my-collections-cards {
+  width: 100%;
+  order: 1; /* Show cards first on mobile */
+}
+
+@media (min-width: 768px) {
+  .my-collections-cards {
+    flex: 1;
+    order: 2; /* Show cards on right for desktop */
+  }
+}
+.search-cards-input {
+  width: 100%;
+  padding: 7px 12px;
+  border-radius: 5px;
+  border: 1px solid #cbd5e0;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+/* ...existing code... */
+
+.my-collections-title {
+  font-size: 2.7rem;
+  font-weight: 700;
+  text-align: left;
+  margin-bottom: 18px;
+  color: #b0b0b0;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 0 #e0e0e0, 0 1px 0 #fff;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.my-collections-title::after {
+  content: '+';
+  font-size: 2.7rem;
+  font-weight: 700;
+  color: #b0b0b0;
+  margin-left: 8px;
+}
+.search-results {
+  display: grid;
+  grid-template-columns: 1fr; /* Single column on mobile */
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* Tablet: 2 columns */
+@media (min-width: 480px) {
+  .search-results {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+/* Desktop: 3 columns */
+@media (min-width: 1024px) {
+  .search-results {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+}
+.no-cards {
+  grid-column: 1/-1;
+  text-align: center;
+  color: #888;
+}
+.card-item {
+  background: #fff;
+    .my-collections-main {
+      display: block;
+    }
+    .my-collections-cards {
+      margin-top: 10px;
+    }
+    .my-collections-filters {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .filter-btn {
+      background: #f5f5f5;
+      color: #888;
+      border: none;
+      border-radius: 22px;
+      padding: 7px 22px;
+      font-size: 1rem;
+      box-shadow: 2px 2px 8px #e0e0e0, -2px -2px 8px #fff;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .filter-btn.selected {
+      background: #e0e0e0;
+      color: #555;
+    }
+  align-items: center;
+}
+.card-img {
+  width: 90px;
+  height: 120px;
+  object-fit: contain;
+    .search-results {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+  color: #2d3748;
+}
+.add-card-btn {
+  background: #3182ce;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 4px 10px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin-bottom: 4px;
+}
+.card-details-btn {
+  background: none;
+  color: #555;
+    .card-item {
+      background: #e0e0e0;
+      border-radius: 18px;
+      box-shadow: 4px 4px 16px #d1d1d1, -4px -4px 16px #fff;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 180px;
+      justify-content: center;
+    }
+}
+.binder-card-item {
+  background: #f7fafc;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+  padding: 10px;
+    .card-img {
+      width: 90px;
+      height: 120px;
+      object-fit: contain;
+      margin-bottom: 8px;
+      background: #d1d1d1;
+      border-radius: 12px;
+      box-shadow: 2px 2px 8px #c0c0c0, -2px -2px 8px #fff;
+    }
+    .card-name {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 6px;
+      color: #888;
+    }
+  height: 100px;
+  object-fit: contain;
+  margin-bottom: 7px;
+}
+.binder-card-name {
+  font-weight: bold;
+  font-size: 0.98rem;
+  margin-bottom: 5px;
+  color: #2d3748;
+}
+    .add-card-btn, .remove-card-btn {
+      background: #f5f5f5;
+      color: #888;
+      border: none;
+      border-radius: 22px;
+      padding: 7px 22px;
+      font-size: 1rem;
+      box-shadow: 2px 2px 8px #e0e0e0, -2px -2px 8px #fff;
+      cursor: pointer;
+      margin-bottom: 4px;
+    }
+    .add-card-btn:hover, .remove-card-btn:hover {
+      background: #e0e0e0;
+      color: #555;
+    }
+.binder-card-details-btn {
+  background: none;
+  color: #555;
+  border: none;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.card-detail-modal-bg {
+    .card-detail-modal-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+    .card-detail-modal {
+      background: #e0e0e0;
+      border-radius: 18px;
+      padding: 28px 24px 18px 24px;
+      width: 340px;
+      position: relative;
+      box-shadow: 4px 4px 16px #d1d1d1, -4px -4px 16px #fff;
+    }
+  justify-content: center;
+  z-index: 100;
+}
+.card-detail-modal {
+  background: #fff;
+  border-radius: 12px;
+  padding: 28px 24px 18px 24px;
+  width: 340px;
+  position: relative;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.13);
+}
+.close-modal-btn {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 1.7rem;
+  color: #888;
+  cursor: pointer;
+}
+.card-detail-img {
+  width: 140px;
+  height: 190px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 16px auto;
+}
+.card-detail-name {
+  font-weight: bold;
+  font-size: 1.3rem;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #2d3748;
+}
+.card-detail-info {
+  font-size: 1rem;
+  margin-bottom: 6px;
+  color: #444;
+}
+.card-detail-info span {
+  font-weight: 600;
+  margin-right: 6px;
+}
+
+/* Additional responsive styles for mobile and tablet */
+.my-collections-title {
+  font-size: 2rem; /* Smaller on mobile */
+}
+
+@media (min-width: 768px) {
+  .my-collections-title {
+    font-size: 2.7rem; /* Larger on desktop */
+  }
+}
+
+/* Make binder buttons more touch-friendly on mobile */
+.my-collections-binder-btn {
+  min-height: 44px; /* Better touch target */
+  padding: 12px 14px;
+}
+
+/* Make input fields more touch-friendly */
+.search-cards-input, 
+.add-binder-input {
+  min-height: 44px;
+  padding: 10px 12px;
+  font-size: 16px; /* Prevents zoom on iOS */
+}
+
+/* Make buttons more touch-friendly */
+.add-card-btn, 
+.remove-card-btn, 
+.add-binder-btn {
+  min-height: 44px;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+/* Responsive modal */
+.card-detail-modal {
+  width: 90vw;
+  max-width: 400px;
+  margin: 20px;
+}
+
+@media (min-width: 768px) {
+  .card-detail-modal {
+    width: 340px;
+    margin: 0;
+  }
+}
+
+/* Hide desktop navigation on mobile, show mobile menu */
+@media (max-width: 767px) {
+  .home-desktop-nav,
+  .home-desktop-actions {
+    display: none;
+  }
+  
+  .home-burger-menu {
+    display: block;
+  }
+}
+
+/* Show desktop navigation on larger screens */
+@media (min-width: 768px) {
+  .home-burger-menu {
+    display: none;
+  }
+  
+  .home-desktop-nav,
+  .home-desktop-actions {
+    display: flex;
+  }
+}

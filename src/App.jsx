@@ -9,6 +9,7 @@ import Shop from "./components/Shop";
 import Favorites from "./components/Favorites";
 import Cart from "./components/Cart";
 import News from "./components/News";
+import MyCollections from "./components/MyCollections";
 import "./App.css";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path="/news" element={<News />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/collections" element={<MyCollections />} />
         </Routes>
       </BrowserRouter>
     </UserProvider>
