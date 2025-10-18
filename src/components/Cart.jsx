@@ -335,6 +335,111 @@ const Cart = () => {
 
                 {/* Order Summary */}
                 <div>
+                  {/* Rewards Section */}
+                  <div style={{
+                    background: '#fffbeb',
+                    border: '1px solid #fde68a',
+                    borderRadius: '12px',
+                    padding: '1.25rem',
+                    marginBottom: '1.5rem'
+                  }}>
+                    <h3 style={{ 
+                      fontSize: '0.875rem', 
+                      fontWeight: '600', 
+                      color: '#92400e',
+                      margin: '0 0 1rem 0',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px'
+                    }}>
+                      Rewards & Promos
+                    </h3>
+                    
+                    <div style={{
+                      display: 'flex',
+                      gap: '0.5rem',
+                      marginBottom: '0.75rem'
+                    }}>
+                      <input
+                        type="text"
+                        placeholder="Promo code"
+                        style={{
+                          flex: 1,
+                          padding: '0.625rem 0.75rem',
+                          border: '1px solid #e5e7eb',
+                          borderRadius: '6px',
+                          fontSize: '0.875rem',
+                          outline: 'none',
+                          background: '#ffffff',
+                          transition: 'border-color 0.2s'
+                        }}
+                        onFocus={(e) => e.target.style.borderColor = '#fbbf24'}
+                        onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+                      />
+                      <button
+                        onClick={() => setToast({ message: 'Promo code applied! 🎉', type: 'success' })}
+                        style={{
+                          padding: '0.625rem 1.25rem',
+                          background: '#fbbf24',
+                          color: '#ffffff',
+                          border: 'none',
+                          borderRadius: '6px',
+                          fontSize: '0.875rem',
+                          fontWeight: '600',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s',
+                          whiteSpace: 'nowrap'
+                        }}
+                        onMouseEnter={(e) => e.target.style.background = '#f59e0b'}
+                        onMouseLeave={(e) => e.target.style.background = '#fbbf24'}
+                      >
+                        Apply
+                      </button>
+                    </div>
+                    
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '0.75rem 0',
+                      borderTop: '1px solid #fde68a',
+                      marginTop: '0.75rem'
+                    }}>
+                      <span style={{ fontSize: '0.813rem', color: '#92400e' }}>
+                        Points Available
+                      </span>
+                      <span style={{ fontSize: '0.875rem', fontWeight: '600', color: '#92400e' }}>
+                        250 pts
+                      </span>
+                    </div>
+                    
+                    <button
+                      onClick={() => setToast({ message: '50 points redeemed! $5 off applied 💰', type: 'success' })}
+                      style={{
+                        width: '100%',
+                        padding: '0.625rem',
+                        background: '#ffffff',
+                        color: '#92400e',
+                        border: '1px solid #fbbf24',
+                        borderRadius: '6px',
+                        fontSize: '0.813rem',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s',
+                        marginTop: '0.5rem'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.background = '#fbbf24';
+                        e.target.style.color = '#ffffff';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.background = '#ffffff';
+                        e.target.style.color = '#92400e';
+                      }}
+                    >
+                      Redeem 50 Points ($5 Off)
+                    </button>
+                  </div>
+
                   <div style={{
                     background: '#ffffff',
                     border: '2px solid #e5e7eb',
