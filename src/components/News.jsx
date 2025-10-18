@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useUser } from "../contexts/UserContext";
+import Toast from "./Toast";
 import pokeindexLogo from "../assets/pokeindex_logo.png";
 import cartIcon from "../assets/cart.png";
 import favoriteIcon from "../assets/favorite.png";
@@ -18,6 +19,7 @@ const News = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [toast, setToast] = useState(null);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -94,13 +96,13 @@ const News = () => {
   ];
 
   const categories = [
-    { id: 'all', name: 'All News', icon: '📰' },
-    { id: 'releases', name: 'New Releases', icon: '🎉' },
-    { id: 'tournaments', name: 'Tournaments', icon: '🏆' },
-    { id: 'market', name: 'Market News', icon: '📈' },
-    { id: 'games', name: 'Video Games', icon: '🎮' },
-    { id: 'strategy', name: 'Strategy', icon: '🧠' },
-    { id: 'collecting', name: 'Collecting', icon: '💎' }
+    { id: 'all', name: 'All News', icon: '' },
+    { id: 'releases', name: 'New Releases', icon: '' },
+    { id: 'tournaments', name: 'Tournaments', icon: '' },
+    { id: 'market', name: 'Market News', icon: '' },
+    { id: 'games', name: 'Video Games', icon: '' },
+    { id: 'strategy', name: 'Strategy', icon: '' },
+    { id: 'collecting', name: 'Collecting', icon: '' }
   ];
 
   useEffect(() => {
@@ -143,11 +145,45 @@ const News = () => {
   }
 
   return (
-    <div className="news-page">
+    <div style={{ minHeight: '100vh', background: '#ffffff' }}>
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
+      <style>{`
+        @media (max-width: 768px) {
+          .news-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .newsletter-inputs {
+            flex-direction: column !important;
+          }
+        }
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .news-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+        }
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.8; }
+        }
+      `}</style>
       {/* Top Navigation Bar */}
-      <header className="home-header">
-        <div className="home-header-container">
-          <div className="home-header-content">
+      <header style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        background: '#ffffff',
+        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+        zIndex: 1000
+      }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 1.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '80px' }}>
             {/* Mobile Burger Menu */}
             <div className="home-burger-menu">
               <button 
@@ -170,6 +206,7 @@ const News = () => {
                     <Link to="/pokedex" className="home-nav-item">Pokedex</Link>
                     <Link to="/shop" className="home-nav-item">Shop</Link>
                     <Link to="/news" className="home-nav-item">News</Link>
+                    <Link to="/collections" className="home-nav-item">My Collections</Link>
 
                     <div className="home-nav-divider"></div>
                     {!isLoggedIn ? (
@@ -202,6 +239,7 @@ const News = () => {
               <Link to="/pokedex" className="home-desktop-nav-item">Pokedex</Link>
               <Link to="/shop" className="home-desktop-nav-item">Shop</Link>
               <Link to="/news" className="home-desktop-nav-item">News</Link>
+              <Link to="/collections" className="home-desktop-nav-item">My Collections</Link>
             </nav>
 
             {/* Desktop Action Buttons - Hidden on mobile */}
@@ -232,53 +270,79 @@ const News = () => {
         </div>
       </header>
 
-      {/* Page Header */}
-      <div className="news-header">
-        <div className="news-header-content">
-          <h1 className="news-page-title">PokeNews</h1>
-          <p className="news-page-subtitle">Stay updated with the latest Pokémon Trading Card Game news</p>
-        </div>
-      </div>
-
       {/* Main Content */}
-      <div className="news-main-content">
+      <div style={{ 
+        maxWidth: '1400px', 
+        margin: '0 auto', 
+        padding: '80px 1rem 3rem 1rem'
+      }}>
         {/* Search Bar */}
-        <div className="mb-8">
-          <div className="relative max-w-md mx-auto">
-            <input
-              type="text"
-              placeholder="Search news articles..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-            />
-            <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </div>
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search news articles..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
         </div>
 
         {/* Categories */}
-        <div className="flex flex-wrap justify-center gap-3 mb-8">
+        <div style={{ 
+          display: 'flex', 
+          flexWrap: 'wrap', 
+          justifyContent: 'center', 
+          gap: '0.75rem', 
+          marginBottom: '2rem' 
+        }}>
           {categories.map(category => (
             <button
               key={category.id}
               onClick={() => setSelectedCategory(category.id)}
-              className={`flex items-center space-x-2 px-6 py-3 rounded-full transition-all duration-200 font-medium ${
-                selectedCategory === category.id 
-                  ? 'bg-blue-600 text-white shadow-lg transform scale-105' 
-                  : 'bg-white text-gray-700 hover:bg-blue-50 hover:text-blue-600 shadow-md'
-              }`}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.75rem 1.5rem',
+                borderRadius: '9999px',
+                border: 'none',
+                fontWeight: '600',
+                fontSize: '0.9375rem',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                background: selectedCategory === category.id 
+                  ? '#fbbf24'
+                  : '#ffffff',
+                color: selectedCategory === category.id ? '#ffffff' : '#374151',
+                boxShadow: selectedCategory === category.id
+                  ? '0 4px 12px rgba(251, 191, 36, 0.3)'
+                  : '0 2px 8px rgba(0,0,0,0.08)',
+                transform: selectedCategory === category.id ? 'translateY(-2px)' : 'translateY(0)'
+              }}
+              onMouseEnter={(e) => {
+                if (selectedCategory !== category.id) {
+                  e.target.style.background = '#fef3c7';
+                  e.target.style.color = '#d97706';
+                  e.target.style.transform = 'translateY(-2px)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (selectedCategory !== category.id) {
+                  e.target.style.background = '#ffffff';
+                  e.target.style.color = '#374151';
+                  e.target.style.transform = 'translateY(0)';
+                }
+              }}
             >
-              <span className="text-lg">{category.icon}</span>
+              <span style={{ fontSize: '1.125rem' }}>{category.icon}</span>
               <span>{category.name}</span>
             </button>
           ))}
         </div>
 
         {/* Results count */}
-        <div className="text-center mb-8">
-          <p className="text-gray-600">
+        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+          <p style={{ color: '#6b7280', fontSize: '0.9375rem' }}>
             {filteredNews.length} article{filteredNews.length !== 1 ? 's' : ''} found
             {searchTerm && ` for "${searchTerm}"`}
             {selectedCategory !== 'all' && ` in ${categories.find(cat => cat.id === selectedCategory)?.name}`}
@@ -287,101 +351,242 @@ const News = () => {
 
         {/* News Grid */}
         {filteredNews.length === 0 ? (
-          <div className="text-center py-16">
-            <div className="text-6xl mb-6">📰</div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">No news articles found</h2>
-            <p className="text-gray-600 mb-6">Try adjusting your search or category filters</p>
+          <div style={{ textAlign: 'center', padding: '4rem 1rem' }}>
+            <div style={{ fontSize: '4rem', marginBottom: '1.5rem' }}>📰</div>
+            <h2 style={{ fontSize: '1.875rem', fontWeight: '700', color: '#111827', marginBottom: '1rem' }}>
+              No news articles found
+            </h2>
+            <p style={{ color: '#6b7280', marginBottom: '1.5rem', fontSize: '1.125rem' }}>
+              Try adjusting your search or category filters
+            </p>
             <button 
               onClick={() => {
                 setSearchTerm('');
                 setSelectedCategory('all');
               }}
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+              style={{
+                background: '#fbbf24',
+                color: '#ffffff',
+                padding: '0.875rem 2rem',
+                borderRadius: '12px',
+                border: 'none',
+                fontWeight: '600',
+                fontSize: '1rem',
+                cursor: 'pointer',
+                boxShadow: '0 4px 12px rgba(251, 191, 36, 0.3)',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'translateY(-2px)';
+                e.target.style.boxShadow = '0 6px 16px rgba(251, 191, 36, 0.4)';
+                e.target.style.background = '#f59e0b';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = '0 4px 12px rgba(251, 191, 36, 0.3)';
+                e.target.style.background = '#fbbf24';
+              }}
             >
               Show All News
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', 
+            gap: '2rem' 
+          }}
+          className="news-grid">
             {filteredNews.map(article => (
-              <article key={article.id} className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group overflow-hidden">
-                <div className="relative overflow-hidden">
+              <article 
+                key={article.id} 
+                style={{
+                  background: '#ffffff',
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+                  transition: 'all 0.3s',
+                  cursor: 'pointer',
+                  border: '2px solid transparent'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-8px)';
+                  e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.12)';
+                  e.currentTarget.style.borderColor = '#fbbf24';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
+                  e.currentTarget.style.borderColor = 'transparent';
+                }}
+              >
+                <div style={{ position: 'relative', overflow: 'hidden' }}>
                   <img 
                     src={article.image} 
                     alt={article.title}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                    style={{
+                      width: '100%',
+                      height: '200px',
+                      objectFit: 'cover',
+                      transition: 'transform 0.3s'
+                    }}
                     onError={(e) => {
                       e.target.src = '/assets/pokeball-bg.png';
                     }}
+                    onMouseEnter={(e) => {
+                      e.target.style.transform = 'scale(1.05)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.transform = 'scale(1)';
+                    }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   
                   {/* Category Tag */}
-                  <div className="absolute top-3 left-3">
-                    <span className="bg-white/90 backdrop-blur-sm text-gray-800 px-3 py-1 rounded-full text-sm font-medium">
+                  <div style={{ position: 'absolute', top: '0.75rem', left: '0.75rem' }}>
+                    <span style={{
+                      background: 'rgba(255, 255, 255, 0.95)',
+                      backdropFilter: 'blur(8px)',
+                      color: '#1f2937',
+                      padding: '0.375rem 0.875rem',
+                      borderRadius: '9999px',
+                      fontSize: '0.8125rem',
+                      fontWeight: '600',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                    }}>
                       {categories.find(cat => cat.id === article.category)?.icon} {categories.find(cat => cat.id === article.category)?.name}
                     </span>
                   </div>
                   
                   {/* Trending Badge */}
                   {article.trending && (
-                    <div className="absolute top-3 right-3">
-                      <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium animate-pulse">
+                    <div style={{ position: 'absolute', top: '0.75rem', right: '0.75rem' }}>
+                      <span style={{
+                        background: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)',
+                        color: '#ffffff',
+                        padding: '0.375rem 0.875rem',
+                        borderRadius: '9999px',
+                        fontSize: '0.8125rem',
+                        fontWeight: '600',
+                        boxShadow: '0 2px 8px rgba(245, 158, 11, 0.4)',
+                        animation: 'pulse 2s infinite'
+                      }}>
                         🔥 Trending
                       </span>
                     </div>
                   )}
                 </div>
                 
-                <div className="p-6">
-                  <div className="flex items-center space-x-3 text-sm text-gray-500 mb-3">
-                    <span className="flex items-center">
-                      <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div style={{ padding: '1.5rem' }}>
+                  <div style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '0.75rem', 
+                    fontSize: '0.8125rem', 
+                    color: '#6b7280',
+                    marginBottom: '1rem',
+                    flexWrap: 'wrap'
+                  }}>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                      <svg style={{ width: '1rem', height: '1rem' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                       {formatDate(article.date)}
                     </span>
-                    <span className="flex items-center">
-                      <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                      {article.author}
-                    </span>
-                    <span className="flex items-center">
-                      <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                      <svg style={{ width: '1rem', height: '1rem' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                       {article.readTime}
                     </span>
                   </div>
                   
-                  <h2 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
+                  <h2 style={{ 
+                    fontSize: '1.25rem', 
+                    fontWeight: '700', 
+                    color: '#111827', 
+                    marginBottom: '0.75rem',
+                    lineHeight: '1.4',
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden'
+                  }}>
                     {article.title}
                   </h2>
                   
-                  <p className="text-gray-600 mb-4 line-clamp-3">{article.excerpt}</p>
+                  <p style={{ 
+                    color: '#6b7280', 
+                    marginBottom: '1.25rem',
+                    lineHeight: '1.6',
+                    display: '-webkit-box',
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden'
+                  }}>
+                    {article.excerpt}
+                  </p>
                   
-                  <div className="flex items-center justify-between">
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <button 
-                      className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center space-x-2"
+                      style={{
+                        background: '#fbbf24',
+                        color: '#ffffff',
+                        padding: '0.625rem 1.25rem',
+                        borderRadius: '10px',
+                        border: 'none',
+                        fontWeight: '600',
+                        fontSize: '0.9375rem',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        transition: 'all 0.2s',
+                        boxShadow: '0 2px 8px rgba(251, 191, 36, 0.3)'
+                      }}
                       onClick={() => {
-                        alert('Full article would open here!');
+                        setToast({ message: 'Full article would open here!', type: 'info' });
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.transform = 'translateY(-2px)';
+                        e.target.style.boxShadow = '0 4px 12px rgba(251, 191, 36, 0.4)';
+                        e.target.style.background = '#f59e0b';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.transform = 'translateY(0)';
+                        e.target.style.boxShadow = '0 2px 8px rgba(251, 191, 36, 0.3)';
+                        e.target.style.background = '#fbbf24';
                       }}
                     >
                       <span>Read More</span>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg style={{ width: '1rem', height: '1rem' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </button>
                     
                     <button 
-                      className="text-gray-500 hover:text-blue-600 transition-colors duration-200 p-2"
+                      style={{
+                        color: '#6b7280',
+                        background: 'transparent',
+                        border: 'none',
+                        padding: '0.5rem',
+                        cursor: 'pointer',
+                        transition: 'color 0.2s',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
                       onClick={() => {
                         navigator.clipboard.writeText(`Check out this Pokemon TCG news: ${article.title}`);
-                        alert('Article link copied to clipboard!');
+                        setToast({ message: 'Article link copied to clipboard!', type: 'success' });
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.color = '#3b82f6';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.color = '#6b7280';
                       }}
                     >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg style={{ width: '1.25rem', height: '1.25rem' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
                       </svg>
                     </button>
@@ -391,26 +596,70 @@ const News = () => {
             ))}
           </div>
         )}
+      </div>
 
-        {/* Newsletter Section */}
-        <div className="mt-16 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-8 text-white text-center">
-          <div className="max-w-2xl mx-auto">
-            <h3 className="text-3xl font-bold mb-4">Stay Updated with Pokemon TCG News</h3>
-            <p className="text-purple-100 mb-6 text-lg">Get the latest news, deck guides, and market insights delivered to your inbox</p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <input 
-                type="email" 
-                placeholder="Enter your email"
-                className="flex-1 px-6 py-3 rounded-xl text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-white focus:outline-none"
-              />
-              <button className="bg-white text-purple-600 px-8 py-3 rounded-xl font-semibold hover:bg-purple-50 transition-colors duration-200 whitespace-nowrap">
-                Subscribe Now
-              </button>
+      {/* Footer */}
+      <footer className="home-footer">
+        <div className="footer-container">
+          <div className="footer-content">
+            {/* Logo Section */}
+            <div className="footer-logo-section">
+              <img src={pokeindexLogo} alt="PokeIndex" className="footer-logo" />
             </div>
-            <p className="text-purple-200 text-sm mt-4">Join 10,000+ Pokemon TCG enthusiasts. Unsubscribe anytime.</p>
+
+            {/* Footer Links */}
+            <div className="footer-links">
+              {/* Shop Column */}
+              <div className="footer-column">
+                <h4 className="footer-column-title">Shop</h4>
+                <ul className="footer-links-list">
+                  <li><Link to="/shop" className="footer-link">Starter Decks</Link></li>
+                  <li><Link to="/shop" className="footer-link">Elite Trainer Boxes</Link></li>
+                  <li><Link to="/shop" className="footer-link">Booster Packs</Link></li>
+                  <li><Link to="/shop" className="footer-link">Accessories</Link></li>
+                </ul>
+              </div>
+
+              {/* About Column */}
+              <div className="footer-column">
+                <h4 className="footer-column-title">About</h4>
+                <ul className="footer-links-list">
+                  <li><Link to="/about" className="footer-link">Our Story</Link></li>
+                  <li><Link to="/faq" className="footer-link">FAQs</Link></li>
+                  <li><Link to="/contact" className="footer-link">Contact Us</Link></li>
+                </ul>
+              </div>
+
+              {/* Support Column */}
+              <div className="footer-column">
+                <h4 className="footer-column-title">Support</h4>
+                <ul className="footer-links-list">
+                  <li><Link to="/shipping" className="footer-link">Shipping & Returns</Link></li>
+                  <li><Link to="/orders" className="footer-link">Order Tracking</Link></li>
+                  <li><Link to="/privacy" className="footer-link">Privacy Policy</Link></li>
+                  <li><Link to="/terms" className="footer-link">Terms of Service</Link></li>
+                </ul>
+              </div>
+
+              {/* Newsletter Column */}
+              <div className="footer-column newsletter-column">
+                <h4 className="footer-column-title">Newsletter</h4>
+                <p className="newsletter-description">
+                  Be the first to know about new card drops, expansions, and special promotions.
+                </p>
+                <div className="newsletter-form">
+                  <input 
+                    type="email" 
+                    placeholder="Enter your email here" 
+                    className="newsletter-input"
+                  />
+                  <button className="newsletter-btn">Subscribe</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </footer>
     </div>
   );
 };

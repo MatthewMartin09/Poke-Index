@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useUser } from "../contexts/UserContext";
-import pokeindexLogo from "../assets/pokeindex_logo.png";
-import cartIcon from "../assets/cart.png";
-import favoriteIcon from "../assets/favorite.png";
-import UserDropdown from "./UserDropdown";
+import Header from './Header';
 import './PokedexLoading.css';
 import './PokedexPagination.css';
 import './PokedexCards.css';
+import pokeindexLogo from '../assets/pokeindex_logo.png';
 
 const Pokedex = () => {
   const navigate = useNavigate();
-  const { isLoggedIn } = useUser();
   const [pokemon, setPokemon] = useState([]);
   const [filteredPokemon, setFilteredPokemon] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -19,7 +15,6 @@ const Pokedex = () => {
   const [selectedGeneration, setSelectedGeneration] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [pokemonPerPage] = useState(10);
@@ -63,10 +58,6 @@ const Pokedex = () => {
         handlePageChange(currentPage - 1);
       }
     }
-  };
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
   };
 
   // Fetch Pokemon data from PokeAPI
@@ -348,94 +339,10 @@ const Pokedex = () => {
   }
 
   return (
-    <div className="pokedex-page">
-      {/* Top Navigation Bar */}
-      <header className="home-header">
-        <div className="home-header-container">
-          <div className="home-header-content">
-            {/* Mobile Burger Menu */}
-            <div className="home-burger-menu">
-              <button 
-                className="home-burger-button"
-                onClick={toggleMenu}
-                aria-label="Toggle menu"
-              >
-                <div className="home-burger-line"></div>
-                <div className="home-burger-line"></div>
-                <div className="home-burger-line"></div>
-              </button>
-              
-              {/* Mobile Dropdown Menu */}
-              {isMenuOpen && (
-                <div className="home-dropdown-menu">
-                  <nav className="home-nav">
-                    <Link to="/home" className="home-nav-item">Home</Link>
-                    <Link to="/favorites" className="home-nav-item">Favorites</Link>
-                    <Link to="/cart" className="home-nav-item">Cart</Link>
-                    <Link to="/pokedex" className="home-nav-item">Pokedex</Link>
-                    <Link to="/shop" className="home-nav-item">Shop</Link>
-
-                    <div className="home-nav-divider"></div>
-                    {!isLoggedIn ? (
-                      <>
-                        <Link to="/login" className="home-nav-item home-mobile-login">
-                          <span>Login</span>
-                        </Link>
-                        <Link to="/signup" className="home-nav-item home-mobile-signup">
-                          <span>Sign Up</span>
-                        </Link>
-                      </>
-                    ) : (
-                      <div className="home-nav-item">
-                        <UserDropdown />
-                      </div>
-                    )}
-                  </nav>
-                </div>
-              )}
-            </div>
-
-            {/* Logo - Mobile: Centered, Desktop: Left */}
-            <div className="home-logo-section">
-              <img src={pokeindexLogo} alt="PokeIndex" className="home-logo" />
-            </div>
-
-            {/* Desktop Navigation - Hidden on mobile */}
-            <nav className="home-desktop-nav">
-              <Link to="/home" className="home-desktop-nav-item">Home</Link>
-              <Link to="/pokedex" className="home-desktop-nav-item">Pokedex</Link>
-              <Link to="/shop" className="home-desktop-nav-item">Shop</Link>
-            </nav>
-
-            {/* Desktop Action Buttons - Hidden on mobile */}
-            <div className="home-desktop-actions">
-              <Link to="/favorites" className="home-icon-btn" aria-label="Favorites">
-                <img src={favoriteIcon} alt="Favorites" className="home-icon" />
-              </Link>
-              <Link to="/cart" className="home-icon-btn" aria-label="Cart">
-                <img src={cartIcon} alt="Cart" className="home-icon" />
-              </Link>
-              {!isLoggedIn ? (
-                <>
-                  <Link to="/login" className="home-desktop-btn home-login-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span>Login</span>
-                  </Link>
-                  <Link to="/signup" className="home-desktop-btn home-signup-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span>Sign Up</span>
-                  </Link>
-                </>
-              ) : (
-                <UserDropdown />
-              )}
-            </div>
-
-            {/* Empty space for mobile layout balance */}
-            <div className="home-spacer"></div>
-          </div>
-        </div>
-      </header>
-      
-      <div className="pokedex-filters">
+    <>
+      <Header />
+      <div className="pokedex-page">
+        <div className="pokedex-filters">
         <div className="search-container">
           <input
             type="text"
@@ -650,7 +557,71 @@ const Pokedex = () => {
           </div>
         </div>
       )}
-    </div>
+
+      {/* Footer */}
+      <footer className="home-footer">
+        <div className="footer-container">
+          <div className="footer-content">
+            {/* Logo Section */}
+            <div className="footer-logo-section">
+              <img src={pokeindexLogo} alt="PokeIndex" className="footer-logo" />
+            </div>
+
+            {/* Footer Links */}
+            <div className="footer-links">
+              {/* Shop Column */}
+              <div className="footer-column">
+                <h4 className="footer-column-title">Shop</h4>
+                <ul className="footer-links-list">
+                  <li><Link to="/shop" className="footer-link">Starter Decks</Link></li>
+                  <li><Link to="/shop" className="footer-link">Elite Trainer Boxes</Link></li>
+                  <li><Link to="/shop" className="footer-link">Booster Packs</Link></li>
+                  <li><Link to="/shop" className="footer-link">Accessories</Link></li>
+                </ul>
+              </div>
+
+              {/* About Column */}
+              <div className="footer-column">
+                <h4 className="footer-column-title">About</h4>
+                <ul className="footer-links-list">
+                  <li><Link to="/about" className="footer-link">Our Story</Link></li>
+                  <li><Link to="/faq" className="footer-link">FAQs</Link></li>
+                  <li><Link to="/contact" className="footer-link">Contact Us</Link></li>
+                </ul>
+              </div>
+
+              {/* Support Column */}
+              <div className="footer-column">
+                <h4 className="footer-column-title">Support</h4>
+                <ul className="footer-links-list">
+                  <li><Link to="/shipping" className="footer-link">Shipping & Returns</Link></li>
+                  <li><Link to="/orders" className="footer-link">Order Tracking</Link></li>
+                  <li><Link to="/privacy" className="footer-link">Privacy Policy</Link></li>
+                  <li><Link to="/terms" className="footer-link">Terms of Service</Link></li>
+                </ul>
+              </div>
+
+              {/* Newsletter Column */}
+              <div className="footer-column newsletter-column">
+                <h4 className="footer-column-title">Newsletter</h4>
+                <p className="newsletter-description">
+                  Be the first to know about new card drops, expansions, and special promotions.
+                </p>
+                <div className="newsletter-form">
+                  <input 
+                    type="email" 
+                    placeholder="Enter your email here" 
+                    className="newsletter-input"
+                  />
+                  <button className="newsletter-btn">Subscribe</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+      </div>
+    </>
   );
 };
 

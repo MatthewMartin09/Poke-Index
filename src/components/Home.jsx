@@ -146,6 +146,7 @@ const Home = () => {
                     <Link to="/cart" className="home-nav-item">Cart</Link>
                     <Link to="/pokedex" className="home-nav-item">Pokedex</Link>
                     <Link to="/shop" className="home-nav-item">Shop</Link>
+                    <Link to="/news" className="home-nav-item">News</Link>
                     <Link to="/collections" className="home-nav-item">My Collections</Link>
 
                     <div className="home-nav-divider"></div>
@@ -178,6 +179,7 @@ const Home = () => {
               <Link to="/home" className="home-desktop-nav-item">Home</Link>
               <Link to="/pokedex" className="home-desktop-nav-item">Pokedex</Link>
               <Link to="/shop" className="home-desktop-nav-item">Shop</Link>
+              <Link to="/news" className="home-desktop-nav-item">News</Link>
               <Link to="/collections" className="home-desktop-nav-item">My Collections</Link>
             </nav>
 
@@ -191,10 +193,10 @@ const Home = () => {
               </Link>
               {!isLoggedIn ? (
                 <>
-                  <Link to="/login" className="home-desktop-btn home-login-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Link to="/login" className="home-desktop-btn home-login-btn flex items-center justify-center">
                     <span>Login</span>
                   </Link>
-                  <Link to="/signup" className="home-desktop-btn home-signup-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Link to="/signup" className="home-desktop-btn home-signup-btn flex items-center justify-center">
                     <span>Sign Up</span>
                   </Link>
                 </>
@@ -222,7 +224,7 @@ const Home = () => {
               />
             </h2>
             {/* Spacer to push carousel down */}
-            <div style={{ height: '10px' }}></div>
+            <div className="h-2.5"></div>
             
             <div className="pack-carousel">
               {/* Card Stack */}
@@ -263,9 +265,8 @@ const Home = () => {
                               <img 
                                 src={pack.image} 
                                 alt={pack.title} 
-                                className="pack-image" 
+                                className="pack-image bg-transparent" 
                                 style={{ 
-                                  background: 'transparent',
                                   mixBlendMode: 'normal' 
                                 }}
                               />
