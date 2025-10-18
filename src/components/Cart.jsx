@@ -50,13 +50,13 @@ const Cart = () => {
   };
 
   const calculateTax = (subtotal) => {
-    return subtotal * 0.08; // 8% tax
+    return subtotal * 0.12; // 12% VAT in Philippines
   };
 
   const calculateTotal = () => {
     const subtotal = calculateSubtotal();
     const tax = calculateTax(subtotal);
-    const shipping = subtotal > 50 ? 0 : 5.99;
+    const shipping = subtotal > 2500 ? 0 : 150; // Free shipping over ₱2,500
     return subtotal + tax + shipping;
   };
 
@@ -76,7 +76,7 @@ const Cart = () => {
 
   const subtotal = calculateSubtotal();
   const tax = calculateTax(subtotal);
-  const shipping = subtotal > 50 ? 0 : 5.99;
+  const shipping = subtotal > 2500 ? 0 : 150;
   const total = calculateTotal();
 
   return (
@@ -318,14 +318,14 @@ const Cart = () => {
                             color: '#9ca3af',
                             marginBottom: '0.25rem'
                           }}>
-                            ${item.price.toFixed(2)} each
+                            ₱{item.price.toFixed(2)} each
                           </p>
                           <p style={{ 
                             fontSize: '1.5rem', 
                             fontWeight: '800',
                             color: '#1f2937'
                           }}>
-                            ${(item.price * item.quantity).toFixed(2)}
+                            ₱{(item.price * item.quantity).toFixed(2)}
                           </p>
                         </div>
                       </div>
@@ -413,7 +413,7 @@ const Cart = () => {
                     </div>
                     
                     <button
-                      onClick={() => setToast({ message: '50 points redeemed! $5 off applied 💰', type: 'success' })}
+                      onClick={() => setToast({ message: '50 points redeemed! ₱250 off applied 💰', type: 'success' })}
                       style={{
                         width: '100%',
                         padding: '0.625rem',
@@ -436,7 +436,7 @@ const Cart = () => {
                         e.target.style.color = '#92400e';
                       }}
                     >
-                      Redeem 50 Points ($5 Off)
+                      Redeem 50 Points (₱250 Off)
                     </button>
                   </div>
 
@@ -470,7 +470,7 @@ const Cart = () => {
                         color: '#6b7280'
                       }}>
                         <span>Subtotal ({cartItems.length} items)</span>
-                        <span style={{ fontWeight: '600' }}>${subtotal.toFixed(2)}</span>
+                        <span style={{ fontWeight: '600' }}>₱{subtotal.toFixed(2)}</span>
                       </div>
                       
                       <div style={{ 
@@ -480,7 +480,7 @@ const Cart = () => {
                         color: '#6b7280'
                       }}>
                         <span>Tax</span>
-                        <span style={{ fontWeight: '600' }}>${tax.toFixed(2)}</span>
+                        <span style={{ fontWeight: '600' }}>₱{tax.toFixed(2)}</span>
                       </div>
                       
                       <div style={{ 
@@ -491,12 +491,12 @@ const Cart = () => {
                       }}>
                         <span>Shipping</span>
                         <span style={{ fontWeight: '600', color: shipping === 0 ? '#10b981' : '#6b7280' }}>
-                          {shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}
+                          {shipping === 0 ? 'FREE' : `₱${shipping.toFixed(2)}`}
                         </span>
                       </div>
                     </div>
                     
-                    {subtotal < 50 && (
+                    {subtotal < 2500 && (
                       <div style={{
                         background: '#dbeafe',
                         padding: '0.875rem',
@@ -510,7 +510,7 @@ const Cart = () => {
                           textAlign: 'center',
                           margin: 0
                         }}>
-                          Add ${(50 - subtotal).toFixed(2)} more for free shipping! 🚚
+                          Add ₱{(2500 - subtotal).toFixed(2)} more for free shipping! 🚚
                         </p>
                       </div>
                     )}
@@ -534,7 +534,7 @@ const Cart = () => {
                         fontWeight: '800',
                         color: '#1f2937'
                       }}>
-                        ${total.toFixed(2)}
+                        ₱{total.toFixed(2)}
                       </span>
                     </div>
                     
